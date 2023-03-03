@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 타임슬라이드 관련 인터넷자료 */
+    body {
+      margin: 0;
+    }
+
+    .slider {
+      width: 100vw;
+      height: 500px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slider img {
+      width: 100vw;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 3s ease-in-out;
+    }
+
+    .slider img:first-child {
+      opacity: 1;
+    }
+
+    .slider nav {
+      position: absolute;
+      bottom: 10px;
+      right: 50%;
+      display: flex;
+      flex-wrap: wrap;
+      z-index: 1;
+    }
+
+    .slider nav button {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.5);
+      margin-right: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .slider nav button.active {
+      background-color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slider">
+    <img src="./그라1 copy.jpeg" alt="Slider 1">
+    <img src="./waves copy.png" alt="Slider 2">
+    <img src="./수채화 copy.jpeg" alt="Slider 3">
+    <img src="./잔잔한 copy.jpeg" alt="Slider 4">
+  </div>
+  <script>
+    const slider = document.querySelector('.slider');
+    const slides = slider.querySelectorAll('img');
+    const dotsContainer = document.createElement('nav');
+    slider.appendChild(dotsContainer);
+    for (let i = 0; i < slides.length; i++) {
+      const dot = document.createElement('button');
+      dot.addEventListener('click', () => {
+        clearInterval(intervalId);
+        changeSlide(i);
+        intervalId = setInterval(() => changeSlide(i + 1), 5000);
+      });
+      dotsContainer.appendChild(dot);
+    }
+    let currentSlide = 0;
+    let intervalId = setInterval(() => changeSlide(currentSlide + 1), 5000);
+    function changeSlide(nextSlide) {
+      slides[currentSlide].style.opacity = 0;
+      dotsContainer.children[currentSlide].classList.remove('active');
+      currentSlide = (nextSlide + slides.length) % slides.length;
+      slides[currentSlide].style.opacity = 1;
+      dotsContainer.children[currentSlide].classList.add('active');
+    }
+  </script>
+</body>
+
+</html>

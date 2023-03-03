@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+
+    //element 생성할 함수 생성
+    function CreateTag(Element, Parent, Attri, AttriValue) {
+      const element = document.createElement(Element);
+      Parent.appendChild(element);
+      //만약 attri 값이 있다면 아래 추가.
+      if (Attri !== undefined) {
+        element.setAttribute(Attri, AttriValue);
+      }
+    }
+
+    //이미지배열예시
+    const Photo = ["희은", "지은", "해경"];
+
+    //body에 스타일 추가
+    document.body.style.cssText = "width:100vw; height:100vh;"
+
+    //id가 root인 div 생성 및 스타일 부여
+    CreateTag("div", document.body, "id", "root");
+    const root = document.getElementById("root");
+    root.style.cssText = "width:100%; height:100%; display:flex; flex-direction:column; justify-content:center;"
+
+    //main 생성
+    CreateTag("main", root, "id", "slide");
+    const slide = document.getElementById("slide");
+    slide.style.cssText = "width:100%; height:60%; display:inline-block"
+
+
+
+    const color = ["red", "orange", "blue"]
+    const count = 0;
+    //section을 사진 갯수만큼 
+    for (i = 0; i < Photo.length; i++) {
+      CreateTag("section", slide);
+      slide.children[i].style.cssText = "width:100%; height:100%; display:none; background-color:" + color[i] + ";"
+      if (i === 0) {
+        slide.children[i].style.display = "";
+      }
+      CreateTag("img", slide.children[i], "src", " ");
+      const Img = slide.children[i].children[0];
+      Img.setAttribute("alt", " ");
+      Img.style.cssText = "width:100%; height:100%;"
+      CreateTag("p", slide.children[i]);
+      function timeout() {
+        //시간이 지나면 다음 children으로 변경
+        // const daytime=new Date();
+        if (count >= Photo.length) {
+          slide.children[i].style.display = "none";
+          slide.children[0].style.display = "";
+          count = 0;
+        } else {
+          slide.children[i].style.display = "none";
+          slide.children[i + 1].style.display = "";
+          count += 1;
+        }//nav 가 사라지기만 함.... 어이궁
+      }
+      window.setInterval(timeout, 3000);
+    }
+
+    console.log(slide.children.length)
+    //버튼 부분 버튼을 감싸는 nav ->위치...
+    CreateTag("nav", slide);
+    slide.lastChild.style.cssText = "width:100%; height:10%; display:flex; justify-content:center; position:fixed;"
+
+    //내부 버튼
+    for (j = 0; j < slide.children.length; j++) {
+      CreateTag("div", slide.lastChild)
+      const buttom = slide.lastChild.children[j]
+      buttom.style.cssText = "width:20px ; height:20px; background-color:black; border-radius:60%;"
+      // buttom[].addEventListener("click",function(){
+      //   slide.children[j].style.display="block"
+      // })
+      //둘이 어떻게 맞출건지
+    }//너무 붙어있는거 같은거만 해결필요
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>
